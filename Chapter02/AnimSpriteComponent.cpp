@@ -13,6 +13,7 @@ AnimSpriteComponent::AnimSpriteComponent(Actor* owner, int drawOrder)
 	:SpriteComponent(owner, drawOrder)
 	, mCurrFrame(0.0f)
 	, mAnimFPS(24.0f)
+	, mCurrAnim(0)
 {
 }
 
@@ -20,16 +21,23 @@ void AnimSpriteComponent::Update(float deltaTime)
 {
 	SpriteComponent::Update(deltaTime);
 
-	if (mAnimTextures.size() > 0)
+	if (mAnimTextures.size() > 0 && mAnimIndices.size() > 0)
 	{
 		// Update the current frame based on frame rate
 		// and delta time
 		mCurrFrame += mAnimFPS * deltaTime;
-		
+
 		// Wrap current frame if needed
-		while (mCurrFrame >= mAnimTextures.size())
+		while (mCurrFrame > std::get<1>(mAnimIndices[mCurrAnim]))
 		{
-			mCurrFrame -= mAnimTextures.size();
+			if (std::get<2>(mAnimIndices[mCurrAnim]))
+			{
+				mCurrFrame -= std::get<1>(mAnimIndices[mCurrAnim]) - std::get<0>(mAnimIndices[mCurrAnim]);
+			}
+			else
+			{
+				mCurrFrame = std::get<1>(mAnimIndices[mCurrAnim]) - 1;
+			}
 		}
 
 		// Set the current texture
@@ -45,5 +53,26 @@ void AnimSpriteComponent::SetAnimTextures(const std::vector<SDL_Texture*>& textu
 		// Set the active texture to first frame
 		mCurrFrame = 0.0f;
 		SetTexture(mAnimTextures[0]);
+	}
+}
+
+void AnimSpriteComponent::SetAnimIndices(const std::vector<std::tuple<int, int, bool>>& indices)
+{
+	mAnimIndices = indices;
+	if (mAnimIndices.size() > 0)
+	{
+		// Set the active texture to first frame
+		mCurrFrame = 0.0f;
+		SetTexture(mAnimTextures[0]);
+	}
+}
+
+void AnimSpriteComponent::SetCurrAnim(int anim)
+{
+	if (anim < mAnimIndices.size())
+	{
+		mCurrAnim = anim;
+		mCurrFrame = 0.0f;
+		SetTexture(mAnimTextures[std::get<0>(mAnimIndices[mCurrAnim])]);
 	}
 }

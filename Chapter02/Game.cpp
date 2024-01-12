@@ -13,6 +13,7 @@
 #include "SpriteComponent.h"
 #include "Ship.h"
 #include "BGSpriteComponent.h"
+#include "TileMapComponent.h"
 
 Game::Game()
 :mWindow(nullptr)
@@ -179,6 +180,21 @@ void Game::LoadData()
 	};
 	bg->SetBGTextures(bgtexs);
 	bg->SetScrollSpeed(-200.0f);
+
+	// Create the tile map
+	Actor* mapActor = new Actor(this);
+	mapActor->SetPosition(Vector2(0.0f, 0.0f));
+	TileMapComponent* tileMap = new TileMapComponent(mapActor);
+	tileMap->SetTileTexture(GetTexture("Assets/Tiles.png"));
+	tileMap->LoadTileMap("Assets/MapLayer3.csv");
+
+	tileMap = new TileMapComponent(mapActor, 50);
+	tileMap->SetTileTexture(GetTexture("Assets/Tiles.png"));
+	tileMap->LoadTileMap("Assets/MapLayer2.csv");
+
+	tileMap = new TileMapComponent(mapActor, 70);
+	tileMap->SetTileTexture(GetTexture("Assets/Tiles.png"));
+	tileMap->LoadTileMap("Assets/MapLayer1.csv");
 }
 
 void Game::UnloadData()
@@ -225,7 +241,7 @@ SDL_Texture* Game::GetTexture(const std::string& fileName)
 			SDL_Log("Failed to convert surface to texture for %s", fileName.c_str());
 			return nullptr;
 		}
-
+		
 		mTextures.emplace(fileName.c_str(), tex);
 	}
 	return tex;

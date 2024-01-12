@@ -45,11 +45,11 @@ void BGSpriteComponent::Draw(SDL_Renderer* renderer)
 		r.y = static_cast<int>(mOwner->GetPosition().y - r.h / 2 + bg.mOffset.y);
 
 		// Draw this background
-		SDL_RenderCopy(renderer,
+		/*SDL_RenderCopy(renderer,
 			bg.mTexture,
 			nullptr,
 			&r
-		);
+		);*/
 	}
 }
 

@@ -9,6 +9,7 @@
 #pragma once
 #include "SpriteComponent.h"
 #include <vector>
+#include <tuple>
 class AnimSpriteComponent : public SpriteComponent
 {
 public:
@@ -17,9 +18,12 @@ public:
 	void Update(float deltaTime) override;
 	// Set the textures used for animation
 	void SetAnimTextures(const std::vector<SDL_Texture*>& textures);
+	// Set the indices used for animation
+	void SetAnimIndices(const std::vector<std::tuple<int, int, bool>>& indices);
 	// Set/get the animation FPS
 	float GetAnimFPS() const { return mAnimFPS; }
 	void SetAnimFPS(float fps) { mAnimFPS = fps; }
+	void SetCurrAnim(int anim);
 private:
 	// All textures in the animation
 	std::vector<SDL_Texture*> mAnimTextures;
@@ -27,4 +31,8 @@ private:
 	float mCurrFrame;
 	// Animation frame rate
 	float mAnimFPS;
+	// Allow multiple animations
+	std::vector<std::tuple<int, int, bool>> mAnimIndices;
+	// Current animation index
+	int mCurrAnim;
 };

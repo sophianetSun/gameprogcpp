@@ -22,8 +22,33 @@ Ship::Ship(Game* game)
 		game->GetTexture("Assets/Ship02.png"),
 		game->GetTexture("Assets/Ship03.png"),
 		game->GetTexture("Assets/Ship04.png"),
+		game->GetTexture("Assets/Character01.png"),
+		game->GetTexture("Assets/Character02.png"),
+		game->GetTexture("Assets/Character03.png"),
+		game->GetTexture("Assets/Character04.png"),
+		game->GetTexture("Assets/Character05.png"),
+		game->GetTexture("Assets/Character06.png"),
+		game->GetTexture("Assets/Character07.png"),
+		game->GetTexture("Assets/Character08.png"),
+		game->GetTexture("Assets/Character09.png"),
+		game->GetTexture("Assets/Character10.png"),
+		game->GetTexture("Assets/Character11.png"),
+		game->GetTexture("Assets/Character12.png"),
+		game->GetTexture("Assets/Character13.png"),
+		game->GetTexture("Assets/Character14.png"),
+		game->GetTexture("Assets/Character15.png"),
+		game->GetTexture("Assets/Character16.png"),
+		game->GetTexture("Assets/Character17.png"),
+		game->GetTexture("Assets/Character18.png"),
 	};
 	asc->SetAnimTextures(anims);
+	
+	std::vector <std::tuple<int, int, bool>> animIndices = { 
+		std::make_tuple(0, 4, true),
+		std::make_tuple(4, 22, false)
+	};
+	asc->SetAnimIndices(animIndices);
+	asc->SetCurrAnim(1);
 }
 
 void Ship::UpdateActor(float deltaTime)
